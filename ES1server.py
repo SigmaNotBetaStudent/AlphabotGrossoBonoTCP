@@ -25,15 +25,15 @@ while True:
 
         print(f"Comando ricevuto: {data}")
 
-        if data == "forward":
+        if data == "f":
             bot.forward()
-        elif data == "backward":
+        elif data == "b":
             bot.backward()
-        elif data == "left":
+        elif data == "l":
             bot.left()
-        elif data == "right":
+        elif data == "r":
             bot.right()
-        elif data == "stop":
+        elif data == "s":
             bot.stop()
         else:
             print("Comando non riconosciuto")

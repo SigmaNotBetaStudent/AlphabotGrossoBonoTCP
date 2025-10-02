@@ -1,6 +1,6 @@
 import socket
 
-HOST = "192.168.1.100"  # IP del Raspberry Pi
+HOST = "192.168.1.109"  # IP del Raspberry Pi
 PORT = 5000
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
