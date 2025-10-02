@@ -1,4 +1,5 @@
 import socket
+import time
 from AlphaBot import AlphaBot
 
 # Inizializza il robot
@@ -27,12 +28,20 @@ while True:
 
         if data == "f":
             bot.forward()
+            time.sleep(10)
+            bot.stop()
         elif data == "b":
             bot.backward()
+            time.sleep(10)
+            bot.stop()
         elif data == "l":
             bot.left()
+            time.sleep(10)
+            bot.stop()
         elif data == "r":
             bot.right()
+            time.sleep(10)
+            bot.stop()
         elif data == "s":
             bot.stop()
         else:
