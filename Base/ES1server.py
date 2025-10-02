@@ -1,12 +1,11 @@
 import socket
-import time
 from AlphaBot import AlphaBot
 
 # Inizializza il robot
 bot = AlphaBot()
 
-HOST = "0.0.0.0"  # Ascolta su tutti gli IP del Raspberry
-PORT = 5000       # Porta TCP (scegli tu, >1024)
+HOST = "0.0.0.0"
+PORT = 5000
 
 # Crea socket TCP
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,24 +25,28 @@ while True:
 
         print(f"Comando ricevuto: {data}")
 
-        if data == "f":
+        try:
+            comando, durata = data.split(",")
+            durata = float(durata)   # tempo in secondi
+        except ValueError:
+            comando = data
+            durata = 0
+
+        if comando == "f":
             bot.forward()
-            time.sleep(10)
-            bot.stop()
-        elif data == "b":
+            
+        elif comando == "b":
             bot.backward()
-            time.sleep(10)
-            bot.stop()
-        elif data == "l":
+
+        elif comando == "l":
             bot.left()
-            time.sleep(10)
-            bot.stop()
-        elif data == "r":
+
+        elif comando == "r":
             bot.right()
-            time.sleep(10)
+
+        elif comando == "s":
             bot.stop()
-        elif data == "s":
-            bot.stop()
+
         else:
             print("Comando non riconosciuto")
     
