@@ -5,7 +5,7 @@ from AlphaBot import AlphaBot
 bot = AlphaBot()
 
 HOST = "0.0.0.0"
-PORT = 5000 
+PORT = 5000
 
 # Crea socket TCP
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,16 +25,28 @@ while True:
 
         print(f"Comando ricevuto: {data}")
 
-        if data == "f":
+        try:
+            comando, durata = data.split(",")
+            durata = float(durata)   # tempo in secondi
+        except ValueError:
+            comando = data
+            durata = 0
+
+        if comando == "f":
             bot.forward()
-        elif data == "b":
+            
+        elif comando == "b":
             bot.backward()
-        elif data == "l":
+
+        elif comando == "l":
             bot.left()
-        elif data == "r":
+
+        elif comando == "r":
             bot.right()
-        elif data == "s":
+
+        elif comando == "s":
             bot.stop()
+
         else:
             print("Comando non riconosciuto")
     
