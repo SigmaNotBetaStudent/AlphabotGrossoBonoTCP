@@ -78,5 +78,32 @@ class AlphaBot(object):
 			GPIO.output(self.IN3,GPIO.LOW)
 			GPIO.output(self.IN4,GPIO.HIGH)
 			self.PWMB.ChangeDutyCycle(0 - left)
+	
+	def rotate(self, degrees=90, direction="right"):
+		"""
+		Ruota il robot di un certo numero di gradi (approssimato a tempo).
+		direction: 'right' o 'left'
+		"""
+		# Durata tarata per 90 gradi
+		base_time = 0.48  # da regolare sperimentalmente
+		duration = base_time * (degrees / 90.0)
+		
+		if direction == "right":
+			GPIO.output(self.IN1, GPIO.HIGH)
+			GPIO.output(self.IN2, GPIO.LOW)
+			GPIO.output(self.IN3, GPIO.LOW)
+			GPIO.output(self.IN4, GPIO.HIGH)
+		elif direction == "left":
+			GPIO.output(self.IN1, GPIO.LOW)
+			GPIO.output(self.IN2, GPIO.HIGH)
+			GPIO.output(self.IN3, GPIO.HIGH)
+			GPIO.output(self.IN4, GPIO.LOW)
+		else:
+			raise ValueError("direction deve essere 'right' o 'left'")
+		
+		time.sleep(duration)
+		self.stop()
+
+
 
 	

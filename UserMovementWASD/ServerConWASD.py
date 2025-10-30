@@ -1,53 +1,42 @@
 import socket
-from AlphaBot import AlphaBot
+from pynput import keyboard
 
-# Inizializza il robot
-bot = AlphaBot()
-
-HOST = "0.0.0.0"
+HOST = "192.168.1.100"  # 🔹 IP del Raspberry Pi (modifica con il tuo)
 PORT = 5000
 
-# Crea socket TCP
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((HOST, PORT))
-server_socket.listen(1)
+# Crea una connessione TCP con il server
+conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+conn.connect((HOST, PORT))
 
-print(f"Server in ascolto su {HOST}:{PORT}")
+def invia(comando):
+    conn.sendall(comando.encode("utf-8"))
+    print(f"Inviato comando: {comando}")
 
-while True:
-    conn, addr = server_socket.accept()
-    print(f"Connessione da {addr}")
-    
-    while True:
-        data = conn.recv(1024).decode("utf-8").strip()
-        if not data:
-            break
+def premi(key):
+    try:
+        if key.char in ['w', 'a', 's', 'd']:
+            if key.char == 'w':
+                invia("f")   # avanti
+            elif key.char == 's':
+                invia("b")   # indietro
+            elif key.char == 'a':
+                invia("l")   # sinistra
+            elif key.char == 'd':
+                invia("r")   # destra
+    except AttributeError:
+        # Controlla tasti speciali
+        if key == keyboard.Key.space:
+            invia("s")  # stop
 
-        print(f"Comando ricevuto: {data}")
+def rilascia(key):
+    # Quando rilascio un tasto, fermo il robot
+    if key.char in ['w', 'a', 's', 'd']:
+        invia("s")
+    elif key == keyboard.Key.esc:
+        print("Chiusura connessione.")
+        conn.close()
+        return False  # ferma il listener
 
-        try:
-            comando, durata = data.split(",")
-            durata = float(durata)   # tempo in secondi
-        except ValueError:
-            comando = data
-            durata = 0
-
-        if comando == "f":
-            bot.forward()
-            
-        elif comando == "b":
-            bot.backward()
-
-        elif comando == "l":
-            bot.left()
-
-        elif comando == "r":
-            bot.right()
-
-        elif comando == "s":
-            bot.stop()
-
-        else:
-            print("Comando non riconosciuto")
-    
-    conn.close()
+# Avvia l'ascoltatore
+with keyboard.Listener(on_press=premi, on_release=rilascia) as listener:
+    listener.join()
