@@ -7,7 +7,7 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
 
 while True:
-    comando = input("Inserisci comando (forward/backward/left/right/stop): ")
+    comando = input("Inserisci comando (f/b/l/r/s): ")
     client_socket.sendall(comando.encode("utf-8"))
     if comando == "exit":
         break

@@ -1,5 +1,6 @@
 import socket
 from AlphaBot import AlphaBot
+import RPi.GPIO as GPIO
 
 # Inizializza il robot
 bot = AlphaBot()
@@ -14,7 +15,19 @@ server_socket.listen(1)
 
 print(f"Server in ascolto su {HOST}:{PORT}")
 
+DR=16
+DL=19
+
+GPIO.setup(DR,GPIO.IN,GPIO.PUD_UP)
+GPIO.setup(DL,GPIO.IN,GPIO.PUD_UP)
+
 while True:
+    DR_status=GPIO.input(DR)
+    DL_status=GPIO.input(DL)
+    if((DL_status==0)or(DR_status==0)):
+        bot.stop()
+    
+
     conn, addr = server_socket.accept()
     print(f"Connessione da {addr}")
     
