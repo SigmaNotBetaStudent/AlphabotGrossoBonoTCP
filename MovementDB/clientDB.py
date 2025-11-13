@@ -3,7 +3,7 @@ from pynput import keyboard
 import sqlite3 as sql
 import time
 
-SERVER_ADDRESS = ("192.168.1.117", 5000) # Indirizzo IP del server al quale mando un messaggio e sua porta
+SERVER_ADDRESS = ("192.168.1.127", 5000) # Indirizzo IP del server al quale mando un messaggio e sua porta
 
 # Crea un socket IPv4 UDP
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # STREAM = TCP
