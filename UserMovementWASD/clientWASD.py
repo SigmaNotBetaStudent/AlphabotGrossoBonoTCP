@@ -1,11 +1,9 @@
 import socket
 from pynput import keyboard
 
-# 🔹 IP del Raspberry Pi (quello dove gira il server)
-HOST = "192.168.1.100"   # <--- CAMBIA QUESTO con l'IP del tuo Raspberry
+HOST = "192.168.1.127"
 PORT = 5000
 
-# Crea una connessione TCP
 try:
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     conn.connect((HOST, PORT))
